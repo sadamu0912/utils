@@ -720,5 +720,83 @@ public class Common {
             s = s.replaceAll("[.]$", "");
         }  
         return s;  
-    }  
+    } 
+    
+    public static String ArabToRoman(int Arab){
+        String Roman = "";
+        String[][] list={
+                   {"","I","II","III","IV","V","VI","VII","VIII","IX"},
+                   {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"},
+                   {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"},
+   {"","M","MM","MMM","","","","","",""}
+       };
+       Roman += list[3][Arab/1000%10];
+       Roman += list[2][Arab/100%10];
+       Roman += list[1][Arab/10%10];
+       Roman += list[0][Arab%10];
+       return Roman;
+   }
+    
+    public static int RomanToInt(String roman){
+    int res=0;
+    try {
+        while(roman.charAt(0)=='M'){res+=1000;roman = roman.substring(1);}
+        if(roman.charAt(0)=='D'){res+=500;roman = roman.substring(1);}
+        while(roman.charAt(0)=='C'){res+=100;roman = roman.substring(1);}
+        if(roman.charAt(0)=='D') {res+=300;roman = roman.substring(1);}
+        else if(roman.charAt(0)=='M'){res+=800; roman = roman.substring(1);}
+        if(roman.charAt(0)=='L'){res+=50;roman = roman.substring(1);}
+        while(roman.charAt(0)=='X'){res+=10;roman=roman.substring(1);}
+        if(roman.charAt(0)=='L'){res+=30;roman=roman.substring(1);}
+        else if(roman.charAt(0)=='C'){res+=80;roman=roman.substring(1);}
+        if(roman.charAt(0)=='V'){res+=5;roman=roman.substring(1);}
+        while(roman.charAt(0)=='I'){res+=1;roman=roman.substring(1);}
+        if(roman.charAt(0)=='V'){res+=3;roman=roman.substring(1);}
+        else if(roman.charAt(0)=='X'){res+=8;roman= roman.substring(1);}
+    } catch (StringIndexOutOfBoundsException e) {
+            return res;
+    }
+    return res;
+}
+    public static int RomanToInt3(String Roman){
+        int res = 0;
+        String regex=null;
+        String s = "'',0,I,1,II,2,III,3,IV,4,V,5,VI,6,VII,7,VIII,8,IX,9,X,10,XX,20,XXX,30,XL,40,L,50,LX,60,LXX,70,LXXX,80,XC,90,C,100,CC,200,CCC,300,CD,400,D,500,DC,600,DCC,700,DCCC,800,CM,900,M,1000,MM,2000,MMM,3000";
+        String c[]=s.split(",");//将字符串打散，存入数组s
+        Pattern p;//正则
+            //遍历循环，正则匹配
+        for(int t=c.length-2;t>0;t-=2){
+            String roma = c[t];
+            int value = Integer.parseInt(c[t+1]);
+            regex="^("+roma+")";      p=Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
+            Matcher matcher=p.matcher(Roman);
+            if(matcher.find()){
+                res += value;
+               Roman=Roman.substring(((String)roma).length());
+//                  System.out.print(Roman + "\t\t");
+//                  System.out.print(regex + "\t\t");
+//                  System.out.println(res);
+            }
+        }
+        return res;
+    }
+    
+    public static String getSingleRomaNumberFromString(String origin){
+    	String returnString = "";
+    String[] romanElements = {"I","V","X","L","C","D","M"};
+    String[] strings = origin.split("");
+    for(int i=0;i<strings.length;i++){
+    	for(int j=0;j<romanElements.length;j++){
+    		if(strings[i].equals(romanElements[j])){
+    			returnString =returnString +strings[i];	
+    		}
+    	}
+    }
+    return returnString;
+    }
+    
+    public static void main(String[] args) {
+		System.out.println(Common.RomanToInt3("III"));
+		System.out.println(Common.getSingleRomaNumberFromString("手术间2-01"));
+	}
 }
