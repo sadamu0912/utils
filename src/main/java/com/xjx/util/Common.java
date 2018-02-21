@@ -699,8 +699,8 @@ public class Common {
 	}
 	
 	
-	public static String getVersion4UUID(){
-		return String.valueOf(UUID.randomUUID());
+	public static String getUUID(){
+		return UUID.randomUUID().toString().replace("-", "");
 	}
 	
 	public static Integer[] convertArrayIntegers(Integer[] integers) {
